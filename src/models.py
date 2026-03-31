@@ -147,6 +147,15 @@ class EmailConfig(BaseModel):
     enabled: bool = False
 
 
+class FeishuWebhookConfig(BaseModel):
+    """Feishu Webhook configuration for notifications."""
+    webhook_url: Optional[str] = None
+    webhook_url_env: str = "FEISHU_WEBHOOK_URL"
+    secret: Optional[str] = None
+    secret_env: str = "FEISHU_WEBHOOK_SECRET"
+    enabled: bool = False
+
+
 class FilteringConfig(BaseModel):
     """Content filtering configuration."""
 
@@ -162,3 +171,4 @@ class Config(BaseModel):
     sources: SourcesConfig
     filtering: FilteringConfig
     email: Optional[EmailConfig] = None
+    feishu_webhook: Optional[FeishuWebhookConfig] = None

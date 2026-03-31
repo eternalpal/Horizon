@@ -18,6 +18,11 @@
     "subscribe_keyword": "SUBSCRIBE",
     "unsubscribe_keyword": "UNSUBSCRIBE"
   },
+  "feishu_webhook": {
+    "enabled": false,
+    "webhook_url": "https://open.feishu.cn/open-apis/bot/v2/hook/your-webhook-url",
+    "secret": "your-secret-key"
+  },
   "sources": {
     "github": [
       {
