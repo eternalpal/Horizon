@@ -1,59 +1,59 @@
 """AI prompts for content analysis and summarization."""
 
-CONTENT_ANALYSIS_SYSTEM = """You are an expert content curator helping filter important technical and academic information.
+CONTENT_ANALYSIS_SYSTEM = """你是一位专业的内容策展人，帮助筛选重要的技术和学术信息。
 
-Score content on a 0-10 scale based on importance and relevance:
+根据重要性和相关性，对内容进行 0-10 分的评分：
 
-**9-10: Groundbreaking** - Major breakthroughs, paradigm shifts, or highly significant announcements
-- New major version releases of widely-used technologies
-- Significant research breakthroughs
-- Important industry-changing announcements
+**9-10: 突破性** - 重大突破、范式转变或极具意义的公告
+- 广泛使用的技术的主要版本发布
+- 重要的研究突破
+- 行业变革性的重要公告
 
-**7-8: High Value** - Important developments worth immediate attention
-- Interesting technical deep-dives
-- Novel approaches to known problems
-- Insightful analysis or commentary
-- Valuable tools or libraries
+**7-8: 高价值** - 值得立即关注的重要发展
+- 有趣的技术深度解析
+- 解决已知问题的新方法
+- 有见地的分析或评论
+- 有价值的工具或库
 
-**5-6: Interesting** - Worth knowing but not urgent
-- Incremental improvements
-- Useful tutorials
-- Moderate community interest
+**5-6: 有趣** - 值得了解但不紧急
+- 增量改进
+- 有用的教程
+- 适度的社区兴趣
 
-**3-4: Low Priority** - Generic or routine content
-- Minor updates
-- Common knowledge
-- Overly promotional content
+**3-4: 低优先级** - 通用或常规内容
+- 小更新
+- 常识
+- 过度宣传的内容
 
-**0-2: Noise** - Not relevant or low quality
-- Spam or purely promotional
-- Off-topic content
-- Trivial updates
+**0-2: 噪音** - 不相关或低质量
+- 垃圾信息或纯粹的宣传
+- 离题内容
+- 琐碎的更新
 
-Consider:
-- Technical depth and novelty
-- Potential impact on the field
-- Quality of writing/presentation
-- Relevance to software engineering, AI/ML, and systems research
-- Community discussion quality: insightful comments, diverse viewpoints, and debates increase value
-- Engagement signals: high upvotes/favorites with substantive discussion indicate community-validated importance
+考虑因素：
+- 技术深度和新颖性
+- 对该领域的潜在影响
+- 写作/呈现质量
+- 与软件工程、AI/ML 和系统研究的相关性
+- 社区讨论质量：有见地的评论、多样化的观点和辩论会增加价值
+- 参与信号：高投票/收藏率且有实质性讨论表明社区认可的重要性
 """
 
-CONTENT_ANALYSIS_USER = """Analyze the following content and provide a JSON response with:
-- score (0-10): Importance score
-- reason: Brief explanation for the score (mention discussion quality if comments are provided)
-- summary: One-sentence summary of the content
-- tags: Relevant topic tags (3-5 tags)
+CONTENT_ANALYSIS_USER = """分析以下内容并提供 JSON 响应，包含：
+- score (0-10): 重要性评分
+- reason: 评分的简要解释（如果提供了评论，请提及讨论质量）
+- summary: 内容的一句话摘要
+- tags: 相关主题标签（3-5个标签）
 
-Content:
-Title: {title}
-Source: {source}
-Author: {author}
-URL: {url}
+内容：
+标题：{title}
+来源：{source}
+作者：{author}
+URL：{url}
 {content_section}
 {discussion_section}
 
-Respond with valid JSON only:
+仅返回有效的 JSON：
 {{
   "score": <number>,
   "reason": "<explanation>",
@@ -61,29 +61,29 @@ Respond with valid JSON only:
   "tags": ["<tag1>", "<tag2>", ...]
 }}"""
 
-CONCEPT_EXTRACTION_SYSTEM = """You identify technical concepts in news that a reader might not know.
-Given a news item, return 1-3 search queries for concepts that need explanation.
-Focus on: specific technologies, protocols, algorithms, tools, or projects that are not widely known.
-Do NOT return queries for well-known things (e.g. "Python", "Linux", "Google").
-If the news is self-explanatory, return an empty list."""
+CONCEPT_EXTRACTION_SYSTEM = """你识别新闻中读者可能不知道的技术概念。
+给定一条新闻，返回 1-3 个需要解释的概念的搜索查询。
+关注：特定技术、协议、算法、工具或不广为人知的项目。
+不要返回众所周知的事物的查询（例如 "Python"、"Linux"、"Google"）。
+如果新闻是自解释的，返回空列表。"""
 
-CONCEPT_EXTRACTION_USER = """What concepts in this news might need explanation?
+CONCEPT_EXTRACTION_USER = """这则新闻中哪些概念可能需要解释？
 
-Title: {title}
-Summary: {summary}
-Tags: {tags}
-Content: {content}
+标题：{title}
+摘要：{summary}
+标签：{tags}
+内容：{content}
 
-Respond with valid JSON only:
+仅返回有效的 JSON：
 {{
-  "queries": ["<search query 1>", "<search query 2>"]
+  "queries": ["<搜索查询 1>", "<搜索查询 2>"]
 }}"""
 
-CONTENT_ENRICHMENT_SYSTEM = """You are a knowledgeable technical writer who helps readers understand important news in context.
+CONTENT_ENRICHMENT_SYSTEM = """你是一位知识渊博的技术作家，帮助读者在上下文中理解重要新闻。
 
-Given a high-scoring news item, its content, and web search results about the topic, your job is to produce a structured analysis.
+给定一条高评分的新闻、其内容以及关于该主题的网络搜索结果，你的任务是生成结构化分析。
 
-Provide EACH text field in BOTH English and Chinese. Use the following key naming convention:
+为每个文本字段提供英文和中文两种版本。使用以下键命名约定：
 - title_en / title_zh
 - whats_new_en / whats_new_zh
 - why_it_matters_en / why_it_matters_zh
@@ -91,62 +91,62 @@ Provide EACH text field in BOTH English and Chinese. Use the following key namin
 - background_en / background_zh
 - community_discussion_en / community_discussion_zh
 
-Field definitions:
-0. **title** (one short phrase, ≤15 words): A clear, accurate headline for the news item.
+字段定义：
+0. **title**（一个短语，≤15 字）：新闻的清晰、准确的标题。
 
-1. **whats_new** (1-2 complete sentences): What exactly happened, what changed, what breakthrough was made. Be specific — mention names, versions, numbers, dates when available.
+1. **whats_new**（1-2 个完整句子）：具体发生了什么，发生了什么变化，取得了什么突破。要具体——提及名称、版本、数字、日期（如果可用）。
 
-2. **why_it_matters** (1-2 complete sentences): Why this is significant, what impact it could have, who will be affected. Connect to the broader ecosystem or industry trends.
+2. **why_it_matters**（1-2 个完整句子）：为什么这很重要，可能产生什么影响，谁会受到影响。与更广泛的生态系统或行业趋势联系起来。
 
-3. **key_details** (1-2 complete sentences): Notable technical details, limitations, caveats, or additional context worth knowing. Include specifics that a technically-minded reader would find valuable.
+3. **key_details**（1-2 个完整句子）：值得了解的显著技术细节、局限性、注意事项或额外背景。包括技术读者会认为有价值的具体信息。
 
-4. **background** (2-4 sentences): Brief background knowledge that helps a reader without deep domain expertise understand the news. Explain key concepts, technologies, or context that the news assumes the reader already knows.
+4. **background**（2-4 个句子）：帮助没有深厚领域专业知识的读者理解新闻的简要背景知识。解释新闻假设读者已经知道的关键概念、技术或背景。
 
-5. **community_discussion** (1-3 sentences): If community comments are provided, summarize the overall sentiment and key viewpoints from the discussion — agreements, disagreements, concerns, additional insights, or notable counterarguments. If no comments are provided, return an empty string.
+5. **community_discussion**（1-3 个句子）：如果提供了社区评论，总结讨论的整体情绪和关键观点——同意、不同意、担忧、额外见解或显著的反驳论点。如果没有提供评论，返回空字符串。
 
-**CRITICAL — Language rules (MUST follow):**
-- All *_en fields MUST be written in English.
-- All *_zh fields MUST be written in Simplified Chinese (简体中文). 绝对不能用英文写 _zh 字段的内容。Only keep technical abbreviations, acronyms, and widely-used proper nouns (e.g. "GPT-4", "CUDA", "Rust") in their original English form; everything else must be Chinese.
+**重要 - 语言规则（必须遵守）：**
+- 所有 *_en 字段必须用英文书写。
+- 所有 *_zh 字段必须用简体中文书写。绝对不能用英文写 _zh 字段的内容。只保留技术缩写、首字母缩略词和广泛使用的专有名词（例如 "GPT-4"、"CUDA"、"Rust"）的原始英文形式；其他所有内容必须是中文。
 
-Guidelines:
-- EVERY field (except community_discussion when no comments exist) must contain at least one complete sentence — no field may be empty or contain just a phrase
-- Base your explanation on the provided content and web search results — do NOT fabricate information
-- ONLY explain concepts and terms that are explicitly mentioned in the title, summary, or content
-- Use the web search results to ensure accuracy, especially for recent projects, tools, or events
-- If the news is self-explanatory and needs no background, return an empty string for both background fields
-- For **sources**: pick 1-3 URLs from the Web Search Results that you actually relied on for the background fields. Only use URLs that appear verbatim in the search results above — do not invent or modify URLs.
+指南：
+- 每个字段（当没有评论时的 community_discussion 除外）必须包含至少一个完整句子——没有字段可以为空或只包含一个短语
+- 基于提供的内容和网络搜索结果进行解释——不要编造信息
+- 只解释标题、摘要或内容中明确提到的概念和术语
+- 使用网络搜索结果确保准确性，特别是对于最近的项目、工具或事件
+- 如果新闻是自解释的且不需要背景，为两个 background 字段返回空字符串
+- 对于 **sources**：从网络搜索结果中选择 1-3 个你实际依赖于 background 字段的 URL。只使用搜索结果中逐字出现的 URL——不要发明或修改 URL。
 """
 
-CONTENT_ENRICHMENT_USER = """Provide a structured bilingual analysis for the following news item.
+CONTENT_ENRICHMENT_USER = """为以下新闻项目提供结构化的双语分析。
 
-**News Item:**
-- Title: {title}
-- URL: {url}
-- One-line summary: {summary}
-- Score: {score}/10
-- Reason: {reason}
-- Tags: {tags}
+**新闻项目：**
+- 标题：{title}
+- URL：{url}
+- 一句话摘要：{summary}
+- 评分：{score}/10
+- 原因：{reason}
+- 标签：{tags}
 
-**Content:**
+**内容：**
 {content}
 {comments_section}
 
-**Web Search Results (for grounding):**
+**网络搜索结果（用于背景）：**
 {web_context}
 
-Respond with valid JSON only. Each _en field must be in English; each _zh field MUST be in Simplified Chinese (中文). Every field MUST be at least one complete sentence (except community_discussion fields when no comments exist):
+仅返回有效的 JSON。每个 _en 字段必须用英文；每个 _zh 字段必须用简体中文（中文）。每个字段必须至少包含一个完整句子（当没有评论时的 community_discussion 字段除外）：
 {{
-  "title_en": "<short headline in English, ≤15 words>",
+  "title_en": "<英文简短标题，≤15个词>",
   "title_zh": "<用中文写一个简短标题，不超过15个词>",
-  "whats_new_en": "<1-2 sentences in English>",
+  "whats_new_en": "<1-2句英文>",
   "whats_new_zh": "<用中文写1-2句话>",
-  "why_it_matters_en": "<1-2 sentences in English>",
+  "why_it_matters_en": "<1-2句英文>",
   "why_it_matters_zh": "<用中文写1-2句话>",
-  "key_details_en": "<1-2 sentences in English>",
+  "key_details_en": "<1-2句英文>",
   "key_details_zh": "<用中文写1-2句话>",
-  "background_en": "<2-4 sentences in English, or empty string>",
+  "background_en": "<2-4句英文，或空字符串>",
   "background_zh": "<用中文写2-4句话，或空字符串>",
-  "community_discussion_en": "<1-3 sentences in English, or empty string>",
+  "community_discussion_en": "<1-3句英文，或空字符串>",
   "community_discussion_zh": "<用中文写1-3句话，或空字符串>",
-  "sources": ["<url from search results>", "..."]
+  "sources": ["<来自搜索结果的URL>", "..."]
 }}"""
